@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ujjwal.ide — /home/portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Bricolage+Grotesque:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fef9f1;
+    --ink: #0a0a0a;
+    --paper: #ffffff;
+    --rose: #ff5c8a;
+    --acid: #c4ff3d;
+    --sky: #6ec1ff;
+    --orange: #ff8a3d;
+    --violet: #c084fc;
+    --shadow: 6px 6px 0 var(--ink);
+    --shadow-sm: 3px 3px 0 var(--ink);
+    --mono: 'Fira Code', ui-monospace, monospace;
+    --display: 'Bricolage Grotesque', system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--ink); font-family: var(--mono); overflow-x: hidden; }
+  body {
+    background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.12) 1px, transparent 0);
+    background-size: 24px 24px;
+    min-height: 100vh;
+  }
+
+  .topbar {
+    display: flex; align-items: center;
+    border-bottom: 2px solid var(--ink);
+    background: var(--ink); color: var(--bg);
+    font-size: 12px; height: 32px;
+    padding: 0 12px; gap: 16px;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .topbar .dots { display: flex; gap: 6px; }
+  .topbar .dots span { width: 12px; height: 12px; border: 1.5px solid var(--bg); }
+  .topbar .dots span:nth-child(1) { background: var(--rose); }
+  .topbar .dots span:nth-child(2) { background: var(--orange); }
+  .topbar .dots span:nth-child(3) { background: var(--acid); }
+  .topbar .title { letter-spacing: 1px; opacity: 0.8; }
+  .topbar .menu { display: flex; gap: 18px; margin-left: auto; }
+  .topbar .menu span { opacity: 0.7; }
+
+  .ide { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 32px); }
+
+  .sidebar {
+    border-right: 2px solid var(--ink);
+    background: var(--paper);
+    padding: 16px 0;
+    position: sticky; top: 32px;
+    height: calc(100vh - 32px);
+    overflow-y: auto; font-size: 12px;
+  }
+  .sidebar-head {
+    padding: 0 14px 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px; font-weight: 600;
+    border-bottom: 2px dashed var(--ink);
+    margin-bottom: 8px;
+  }
+  .tree { padding: 4px 8px; }
+  .tree-folder {
+    cursor: pointer; padding: 4px 6px;
+    user-select: none;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .tree-folder:hover { background: var(--acid); }
+  .tree-folder .arrow { display: inline-block; transition: transform 0.2s; font-size: 10px; }
+  .tree-folder.open .arrow { transform: rotate(90deg); }
+  .tree-children { padding-left: 18px; display: none; }
+  .tree-folder.open + .tree-children { display: block; }
+  .tree-file {
+    cursor: pointer; padding: 3px 8px;
+    display: flex; align-items: center; gap: 6px;
+    border-left: 2px solid transparent;
+  }
+  .tree-file:hover { background: var(--bg); border-left-color: var(--rose); }
+  .tree-file.active { background: var(--ink); color: var(--bg); border-left-color: var(--acid); }
+  .tree-file .icon { font-size: 10px; opacity: 0.6; }
+  .sidebar-footer {
+    margin-top: 32px; padding: 12px 14px;
+    border-top: 2px dashed var(--ink);
+    font-size: 10px; opacity: 0.6;
+  }
+  .sidebar-footer .blink { color: var(--rose); animation: blink 1s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .main { display: flex; flex-direction: column; min-width: 0; }
+
+  .tabs {
+    display: flex; border-bottom: 2px solid var(--ink);
+    background: var(--paper); overflow-x: auto; height: 36px;
+  }
+  .tab {
+    padding: 0 16px;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px;
+    border-right: 1.5px solid var(--ink);
+    white-space: nowrap;
+  }
+  .tab.active { background: var(--bg); font-weight: 500; }
+  .tab .x { opacity: 0.4; font-size: 10px; }
+
+  .hero-block {
+    padding: 60px 48px 80px;
+    border-bottom: 2px solid var(--ink);
+    position: relative; overflow: hidden;
+  }
+  .hero-block::before {
+    content: ''; position: absolute;
+    top: -40px; right: -40px;
+    width: 240px; height: 240px;
+    background: var(--acid);
+    border: 2px solid var(--ink);
+    border-radius: 50%; z-index: 0;
+  }
+  .hero-block::after {
+    content: ''; position: absolute;
+    bottom: -30px; right: 80px;
+    width: 80px; height: 80px;
+    background: var(--rose);
+    border: 2px solid var(--ink);
+    z-index: 0; transform: rotate(15deg);
+  }
+  .hero-tag {
+    display: inline-block;
+    background: var(--ink); color: var(--bg);
+    padding: 4px 12px; font-size: 11px;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 24px; position: relative; z-index: 2;
+  }
+  .hero-name {
+    font-family: var(--display);
+    font-size: clamp(56px, 12vw, 160px);
+    font-weight: 900; line-height: 0.85;
+    letter-spacing: -4px;
+    position: relative; z-index: 2;
+    margin-bottom: 16px;
+  }
+  .hero-name .squiggle { color: var(--rose); display: inline-block; transform: rotate(-8deg); }
+  .hero-name .dot { color: var(--acid); -webkit-text-stroke: 2px var(--ink); }
+  .hero-sub {
+    font-size: 16px; max-width: 560px;
+    line-height: 1.5; margin-bottom: 32px;
+    position: relative; z-index: 2;
+    background: var(--paper); padding: 12px 16px;
+    border: 2px solid var(--ink);
+    box-shadow: var(--shadow-sm);
+    display: inline-block;
+  }
+  .hero-sub .marker { background: var(--acid); padding: 0 4px; font-weight: 500; }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 12px; position: relative; z-index: 2; }
+  .pill {
+    padding: 6px 14px; background: var(--paper);
+    border: 2px solid var(--ink);
+    font-size: 12px; font-weight: 500;
+    box-shadow: var(--shadow-sm);
+  }
+  .pill.rose { background: var(--rose); color: var(--paper); }
+  .pill.sky { background: var(--sky); }
+  .pill.violet { background: var(--violet); }
+
+  .block { padding: 64px 48px; border-bottom: 2px solid var(--ink); }
+  .block-head {
+    display: flex; align-items: baseline; gap: 16px;
+    margin-bottom: 32px;
+  }
+  .block-num {
+    font-family: var(--display);
+    font-size: 56px; font-weight: 900;
+    line-height: 1;
+  }
+  .block-num.outline { color: transparent; -webkit-text-stroke: 2px var(--ink); }
+  .block-title {
+    font-family: var(--display);
+    font-size: 28px; font-weight: 700;
+    letter-spacing: -1px; flex: 1;
+  }
+  .block-title::after {
+    content: ''; display: inline-block;
+    width: 60%; height: 2px; background: var(--ink);
+    margin-left: 12px; vertical-align: middle;
+  }
+
+  .codefile {
+    background: var(--paper); border: 2px solid var(--ink);
+    box-shadow: var(--shadow);
+    font-size: 14px; line-height: 1.7; overflow: hidden;
+  }
+  .codefile-head {
+    background: var(--ink); color: var(--bg);
+    padding: 8px 16px; font-size: 11px;
+    display: flex; justify-content: space-between;
+  }
+  .codefile-body { padding: 20px 24px; counter-reset: line; }
+  .cl { display: grid; grid-template-columns: 32px 1fr; gap: 16px; }
+  .cl::before {
+    counter-increment: line; content: counter(line);
+    color: rgba(0,0,0,0.3); font-size: 12px;
+    text-align: right; user-select: none;
+  }
+  .kw { color: var(--rose); font-weight: 500; }
+  .cls { color: var(--violet); font-weight: 500; }
+  .fn { color: #2563eb; font-weight: 500; }
+  .str { color: var(--orange); }
+  .cmt { color: rgba(0,0,0,0.45); font-style: italic; }
+  .num-lit { color: var(--rose); }
+  .hl { background: var(--acid); padding: 0 4px; }
+
+  .skills-wall {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0;
+    border: 2px solid var(--ink);
+    background: var(--ink);
+    box-shadow: var(--shadow);
+  }
+  .skill-cell {
+    background: var(--paper);
+    padding: 20px; margin: 1px;
+    transition: all 0.2s;
+    min-height: 140px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .skill-cell:hover {
+    background: var(--acid);
+    transform: scale(1.05);
+    z-index: 5; position: relative;
+    box-shadow: var(--shadow-sm);
+  }
+  .skill-cell.rose { background: var(--rose); color: var(--paper); }
+  .skill-cell.sky { background: var(--sky); }
+  .skill-cell.violet { background: var(--violet); color: var(--paper); }
+  .skill-cell.dark { background: var(--ink); color: var(--bg); }
+  .skill-cell.dark:hover { background: var(--ink); color: var(--acid); transform: scale(1.05); }
+  .skill-cell.orange { background: var(--orange); }
+  .skill-cell .skill-num { font-size: 11px; opacity: 0.6; letter-spacing: 1px; }
+  .skill-cell .skill-name {
+    font-family: var(--display);
+    font-size: 22px; font-weight: 700;
+    line-height: 1.1; letter-spacing: -0.5px;
+    margin: 8px 0;
+  }
+  .skill-cell .skill-cat {
+    font-size: 10px; opacity: 0.7;
+    text-transform: uppercase; letter-spacing: 1.5px;
+  }
+
+  .projects-stack { display: grid; gap: 24px; }
+  .pcard {
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    box-shadow: var(--shadow);
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    overflow: hidden;
+    transition: all 0.2s;
+  }
+  .pcard:hover { transform: translate(-3px, -3px); box-shadow: 9px 9px 0 var(--ink); }
+  .pcard-body { padding: 28px; }
+  .pcard-head { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .pcard-id {
+    font-size: 11px;
+    background: var(--ink); color: var(--bg);
+    padding: 3px 8px; letter-spacing: 1px;
+  }
+  .pcard h3 {
+    font-family: var(--display);
+    font-size: 26px; font-weight: 700;
+    letter-spacing: -0.5px;
+    margin: 8px 0 12px; line-height: 1;
+  }
+  .pcard p { font-size: 13px; line-height: 1.6; margin-bottom: 16px; max-width: 540px; }
+  .ptags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .ptag {
+    font-size: 11px; padding: 3px 10px;
+    background: var(--bg); border: 1.5px solid var(--ink);
+  }
+  .pcard-side {
+    background: var(--acid);
+    border-left: 2px solid var(--ink);
+    padding: 24px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    font-size: 11px;
+  }
+  .pcard:nth-child(2) .pcard-side { background: var(--rose); color: var(--paper); }
+  .pcard:nth-child(3) .pcard-side { background: var(--sky); }
+  .pcard:nth-child(4) .pcard-side { background: var(--violet); color: var(--paper); }
+  .pcard-stat { margin-bottom: 14px; }
+  .pcard-stat .v {
+    font-family: var(--display);
+    font-size: 32px; font-weight: 900;
+    line-height: 1; letter-spacing: -1px;
+  }
+  .pcard-stat .l {
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 1.5px; opacity: 0.8;
+  }
+
+  .term-wrap {
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    box-shadow: var(--shadow);
+  }
+  .term-bar {
+    background: var(--ink); color: var(--bg);
+    padding: 8px 14px; font-size: 11px;
+    display: flex; justify-content: space-between;
+    letter-spacing: 1px;
+  }
+  .term-screen {
+    padding: 20px; height: 320px;
+    overflow-y: auto; font-size: 13px;
+    line-height: 1.7; background: #fefae5;
+  }
+  .term-screen::-webkit-scrollbar { width: 8px; }
+  .term-screen::-webkit-scrollbar-thumb { background: var(--ink); }
+  .term-line { white-space: pre-wrap; word-break: break-word; }
+  .p-user { color: var(--rose); font-weight: 500; }
+  .p-host { color: var(--ink); opacity: 0.5; }
+  .p-path { color: var(--violet); font-weight: 500; }
+  .term-out .ok { color: #16a34a; font-weight: 500; }
+  .term-out .err { color: var(--rose); }
+  .term-input-row {
+    border-top: 2px solid var(--ink);
+    padding: 12px 20px;
+    display: flex; align-items: center; gap: 8px;
+    background: var(--bg); font-size: 13px;
+  }
+  .term-input {
+    flex: 1; background: transparent;
+    border: 0; outline: 0;
+    font-family: var(--mono); font-size: 13px;
+    color: var(--ink); caret-color: var(--rose);
+  }
+
+  .contact-mosaic {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .ccard {
+    border: 2px solid var(--ink);
+    padding: 28px; background: var(--paper);
+    box-shadow: var(--shadow);
+    text-decoration: none; color: var(--ink);
+    transition: all 0.15s;
+    position: relative; overflow: hidden;
+  }
+  .ccard:hover { transform: translate(-3px, -3px); box-shadow: 9px 9px 0 var(--ink); }
+  .ccard:nth-child(1) { background: var(--rose); color: var(--paper); }
+  .ccard:nth-child(2) { background: var(--ink); color: var(--bg); }
+  .ccard:nth-child(3) { background: var(--acid); }
+  .ccard:nth-child(4) { background: var(--sky); }
+  .ccard .label {
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 2px; opacity: 0.7;
+  }
+  .ccard .val {
+    font-family: var(--display);
+    font-size: 28px; font-weight: 700;
+    margin-top: 12px; letter-spacing: -0.5px;
+    word-break: break-all;
+  }
+  .ccard .arrow {
+    position: absolute; bottom: 16px; right: 20px;
+    font-size: 32px; line-height: 1;
+    transition: transform 0.2s;
+  }
+  .ccard:hover .arrow { transform: translate(4px, -4px); }
+
+  .foot {
+    padding: 32px 48px;
+    background: var(--ink); color: var(--bg);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px;
+  }
+  .foot .blink { color: var(--acid); animation: blink 1s steps(2) infinite; }
+
+  .sticker {
+    position: fixed;
+    width: 100px; height: 100px;
+    background: var(--acid);
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--display); font-weight: 900;
+    font-size: 13px; text-align: center;
+    cursor: grab;
+    box-shadow: var(--shadow);
+    z-index: 90; user-select: none;
+    transform: rotate(-12deg);
+    bottom: 32px; right: 32px;
+    line-height: 1.1; padding: 8px;
+  }
+  .sticker:active { cursor: grabbing; }
+
+  @media (max-width: 880px) {
+    .ide { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .hero-block, .block { padding: 40px 24px; }
+    .pcard { grid-template-columns: 1fr; }
+    .pcard-side { border-left: 0; border-top: 2px solid var(--ink); flex-direction: row; gap: 16px; flex-wrap: wrap; }
+    .contact-mosaic { grid-template-columns: 1fr; }
+    .foot { flex-direction: column; gap: 8px; padding: 24px; }
+    .sticker { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="dots"><span></span><span></span><span></span></div>
+  <div class="title">ujjwal.ide — /home/portfolio/main.ts</div>
+  <div class="menu">
+    <span>file</span><span>edit</span><span>view</span><span>run</span><span>help</span>
+  </div>
+</div>
+
+<div class="ide">
+
+  <aside class="sidebar">
+    <div class="sidebar-head">explorer</div>
+    <div class="tree">
+      <div class="tree-folder open"><span class="arrow">▸</span> 📁 portfolio</div>
+      <div class="tree-children">
+        <div class="tree-file active" data-target="hero"><span class="icon">⚡</span> index.html</div>
+        <div class="tree-file" data-target="about"><span class="icon">📝</span> about.md</div>
+        <div class="tree-file" data-target="skills"><span class="icon">⚙</span> skills.json</div>
+        <div class="tree-file" data-target="projects"><span class="icon">📦</span> projects.ts</div>
+        <div class="tree-file" data-target="terminal"><span class="icon">$_</span> shell.sh</div>
+        <div class="tree-file" data-target="contact"><span class="icon">✉</span> contact.toml</div>
+      </div>
+      <div class="tree-folder"><span class="arrow">▸</span> 📁 ./hidden</div>
+    </div>
+    <div class="sidebar-footer">
+      git: <span class="blink">●</span> main<br/>
+      build: passing<br/>
+      uptime: ∞
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="tabs">
+      <div class="tab active">index.html <span class="x">×</span></div>
+      <div class="tab">about.md <span class="x">×</span></div>
+      <div class="tab">README.md <span class="x">×</span></div>
+    </div>
+
+    <section class="hero-block" id="hero">
+      <div class="hero-tag">// build_id: 0x42 · status: shipping</div>
+      <h1 class="hero-name">UJJWAL<span class="dot">.</span><br/><span class="squiggle">CODES</span></h1>
+      <div class="hero-sub">
+        cs student wiring up <span class="marker">data science</span> + <span class="marker">software engineering</span>. currently knee-deep in java OOP — making classes, breaking inheritance, learning what abstract really means.
+      </div>
+      <div class="hero-meta">
+        <span class="pill rose">● available for projects</span>
+        <span class="pill">java + python</span>
+        <span class="pill sky">studying CS</span>
+        <span class="pill violet">caffeine: 87%</span>
+      </div>
+    </section>
+
+    <section class="block" id="about">
+      <div class="block-head">
+        <div class="block-num">01</div>
+        <div class="block-title">/about.md</div>
+      </div>
+      <div class="codefile">
+        <div class="codefile-head">
+          <span>📄 about.ts</span>
+          <span>typescript · utf-8</span>
+        </div>
+        <div class="codefile-body">
+          <div class="cl"><span><span class="cmt">// who is this guy</span></span></div>
+          <div class="cl"><span><span class="kw">import</span> { <span class="cls">Curiosity</span>, <span class="cls">Caffeine</span> } <span class="kw">from</span> <span class="str">'./essentials'</span>;</span></div>
+          <div class="cl"><span>&nbsp;</span></div>
+          <div class="cl"><span><span class="kw">export class</span> <span class="cls">Ujjwal</span> <span class="kw">extends</span> <span class="cls">Human</span> {</span></div>
+          <div class="cl"><span>&nbsp;&nbsp;<span class="kw">readonly</span> role = <span class="str">'cs student'</span>;</span></div>
+          <div class="cl"><span>&nbsp;&nbsp;<span class="kw">readonly</span> focus = [<span class="str">'data science'</span>, <span class="str">'software engineering'</span>];</span></div>
+          <div class="cl"><span>&nbsp;&nbsp;<span class="kw">readonly</span> currentlyLearning = <span class="str">'object-oriented programming (java)'</span>;</span></div>
+          <div class="cl"><span>&nbsp;&nbsp;coffee = <span class="num-lit">true</span>; <span class="cmt">// always</span></span></div>
+          <div class="cl"><span>&nbsp;</span></div>
+          <div class="cl"><span>&nbsp;&nbsp;<span class="fn">build</span>(idea: <span class="cls">Idea</span>): <span class="cls">Project</span> {</span></div>
+          <div class="cl"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> idea</span></div>
+          <div class="cl"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<span class="fn">prototype</span>()</span></div>
+          <div class="cl"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<span class="fn">debug</span>(<span class="num-lit">3</span>)&nbsp;&nbsp;<span class="cmt">// always 3 times somehow</span></span></div>
+          <div class="cl"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<span class="fn">refactor</span>()</span></div>
+          <div class="cl"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<span class="fn">ship</span>();</span></div>
+          <div class="cl"><span>&nbsp;&nbsp;}</span></div>
+          <div class="cl"><span>&nbsp;</span></div>
+          <div class="cl"><span>&nbsp;&nbsp;<span class="fn">manifesto</span>() {</span></div>
+          <div class="cl"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> <span class="hl"><span class="str">'write code future me wont curse at'</span></span>;</span></div>
+          <div class="cl"><span>&nbsp;&nbsp;}</span></div>
+          <div class="cl"><span>}</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="skills">
+      <div class="block-head">
+        <div class="block-num outline">02</div>
+        <div class="block-title">/stack — what's installed</div>
+      </div>
+      <div class="skills-wall">
+        <div class="skill-cell rose"><span class="skill-num">// 001</span><div class="skill-name">Java</div><span class="skill-cat">core / OOP</span></div>
+        <div class="skill-cell"><span class="skill-num">// 002</span><div class="skill-name">Python</div><span class="skill-cat">data / scripts</span></div>
+        <div class="skill-cell sky"><span class="skill-num">// 003</span><div class="skill-name">pandas</div><span class="skill-cat">data wrangling</span></div>
+        <div class="skill-cell"><span class="skill-num">// 004</span><div class="skill-name">scikit-learn</div><span class="skill-cat">classical ML</span></div>
+        <div class="skill-cell violet"><span class="skill-num">// 005</span><div class="skill-name">NumPy</div><span class="skill-cat">linear algebra</span></div>
+        <div class="skill-cell"><span class="skill-num">// 006</span><div class="skill-name">SQL</div><span class="skill-cat">queries</span></div>
+        <div class="skill-cell dark"><span class="skill-num">// 007</span><div class="skill-name">Git</div><span class="skill-cat">version control</span></div>
+        <div class="skill-cell orange"><span class="skill-num">// 008</span><div class="skill-name">Linux</div><span class="skill-cat">terminal</span></div>
+        <div class="skill-cell"><span class="skill-num">// 009</span><div class="skill-name">C / C++</div><span class="skill-cat">systems</span></div>
+        <div class="skill-cell rose"><span class="skill-num">// 010</span><div class="skill-name">Jupyter</div><span class="skill-cat">analysis</span></div>
+        <div class="skill-cell sky"><span class="skill-num">// 011</span><div class="skill-name">matplotlib</div><span class="skill-cat">viz</span></div>
+        <div class="skill-cell"><span class="skill-num">// 012</span><div class="skill-name">JavaScript</div><span class="skill-cat">web</span></div>
+      </div>
+    </section>
+
+    <section class="block" id="projects">
+      <div class="block-head">
+        <div class="block-num">03</div>
+        <div class="block-title">/projects.ts</div>
+      </div>
+      <div class="projects-stack">
+
+        <div class="pcard">
+          <div class="pcard-body">
+            <div class="pcard-head">
+              <span class="pcard-id">PRJ-001</span>
+              <span style="font-size:11px;color:#666;">// java · oop labs</span>
+            </div>
+            <h3>Inheritance.java</h3>
+            <p>Coursework lab series exploring object-oriented programming in Java. Built abstract classes for shape hierarchies, custom packages, and multi-interface implementations to dig into hybrid inheritance. Every lab is heavily documented — designed to teach the concept, not just pass it.</p>
+            <div class="ptags"><span class="ptag">Java</span><span class="ptag">OOP</span><span class="ptag">Abstract Classes</span><span class="ptag">Interfaces</span></div>
+          </div>
+          <div class="pcard-side">
+            <div class="pcard-stat"><div class="v">12+</div><div class="l">labs done</div></div>
+            <div class="pcard-stat"><div class="v">A</div><div class="l">grade target</div></div>
+          </div>
+        </div>
+
+        <div class="pcard">
+          <div class="pcard-body">
+            <div class="pcard-head">
+              <span class="pcard-id">PRJ-002</span>
+              <span style="font-size:11px;color:#666;">// python · ml</span>
+            </div>
+            <h3>ModelArena.py</h3>
+            <p>A lightweight benchmarking harness for classical ML — drop in a dataset, get back a leaderboard comparing Linear Regression, KNN, Random Forest, and SVM with consistent splits and metric reporting. Made it because doing this manually four times got old fast.</p>
+            <div class="ptags"><span class="ptag">Python</span><span class="ptag">scikit-learn</span><span class="ptag">pandas</span><span class="ptag">matplotlib</span></div>
+          </div>
+          <div class="pcard-side">
+            <div class="pcard-stat"><div class="v">4</div><div class="l">algorithms</div></div>
+            <div class="pcard-stat"><div class="v">∞</div><div class="l">datasets</div></div>
+          </div>
+        </div>
+
+        <div class="pcard">
+          <div class="pcard-body">
+            <div class="pcard-head">
+              <span class="pcard-id">PRJ-003</span>
+              <span style="font-size:11px;color:#666;">// python · eda · wip</span>
+            </div>
+            <h3>EDA-In-A-Box.ipynb</h3>
+            <p>Reusable Jupyter template that automates the unfun parts of exploratory analysis — null counts, type inference, distributions, correlation heatmaps, outlier hints — so the actual thinking can start sooner. Used on every coursework dataset now.</p>
+            <div class="ptags"><span class="ptag">pandas</span><span class="ptag">seaborn</span><span class="ptag">EDA</span></div>
+          </div>
+          <div class="pcard-side">
+            <div class="pcard-stat"><div class="v">WIP</div><div class="l">status</div></div>
+            <div class="pcard-stat"><div class="v">v0.4</div><div class="l">version</div></div>
+          </div>
+        </div>
+
+        <div class="pcard">
+          <div class="pcard-body">
+            <div class="pcard-head">
+              <span class="pcard-id">PRJ-004</span>
+              <span style="font-size:11px;color:#666;">// html · css · js</span>
+            </div>
+            <h3>this.site</h3>
+            <p>This portfolio. Single static file, no frameworks, no build step. The IDE chrome is fake but the terminal is real — try typing <code style="background:var(--acid);padding:1px 4px;">help</code> below.</p>
+            <div class="ptags"><span class="ptag">HTML</span><span class="ptag">CSS</span><span class="ptag">JavaScript</span></div>
+          </div>
+          <div class="pcard-side">
+            <div class="pcard-stat"><div class="v">1</div><div class="l">file</div></div>
+            <div class="pcard-stat"><div class="v">0</div><div class="l">deps</div></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="block" id="terminal">
+      <div class="block-head">
+        <div class="block-num outline">04</div>
+        <div class="block-title">/shell.sh</div>
+      </div>
+      <p style="font-size:13px;margin-bottom:20px;color:#666;">// type <span class="hl">help</span> to start. yes it actually works.</p>
+      <div class="term-wrap">
+        <div class="term-bar">
+          <span>● ujjwal@portfolio: ~/shell</span>
+          <span>bash · v1.0</span>
+        </div>
+        <div class="term-screen" id="termScreen">
+          <div class="term-line term-out">welcome. type <span class="hl">help</span> to begin.</div>
+          <div class="term-line term-out">&nbsp;</div>
+        </div>
+        <div class="term-input-row">
+          <span class="p-user">ujjwal</span><span class="p-host">@portfolio</span><span class="p-host">:</span><span class="p-path">~</span><span>$</span>
+          <input id="termInput" class="term-input" autocomplete="off" spellcheck="false" />
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="contact">
+      <div class="block-head">
+        <div class="block-num">05</div>
+        <div class="block-title">/contact.toml</div>
+      </div>
+      <p style="font-size:14px;margin-bottom:32px;max-width:520px;">always down to chat about projects, internships, or why downcasting in java feels like negotiating with the compiler.</p>
+      <div class="contact-mosaic">
+        <a class="ccard" href="mailto:your.email@example.com">
+          <div class="label">email</div>
+          <div class="val">your.email@example.com</div>
+          <div class="arrow">↗</div>
+        </a>
+        <a class="ccard" href="https://github.com/yourusername" target="_blank" rel="noopener">
+          <div class="label">github</div>
+          <div class="val">/yourusername</div>
+          <div class="arrow">↗</div>
+        </a>
+        <a class="ccard" href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener">
+          <div class="label">linkedin</div>
+          <div class="val">/in/yourusername</div>
+          <div class="arrow">↗</div>
+        </a>
+        <a class="ccard" href="#">
+          <div class="label">resume</div>
+          <div class="val">view PDF</div>
+          <div class="arrow">↗</div>
+        </a>
+      </div>
+    </section>
+
+    <div class="foot">
+      <div>© <span id="year"></span> ujjwal · written in vim, broken in browser <span class="blink">█</span></div>
+      <div>v1.0.0 · main · last commit: today</div>
+    </div>
+
+  </main>
+</div>
+
+<div class="sticker" id="sticker">DRAG<br/>ME</div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  document.querySelectorAll('.tree-folder').forEach(f => {
+    f.addEventListener('click', () => f.classList.toggle('open'));
+  });
+  document.querySelectorAll('.tree-file').forEach(f => {
+    f.addEventListener('click', () => {
+      document.querySelectorAll('.tree-file').forEach(x => x.classList.remove('active'));
+      f.classList.add('active');
+      const t = f.dataset.target;
+      if (t) document.getElementById(t).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  (() => {
+    const s = document.getElementById('sticker');
+    if (!s) return;
+    let dragging = false, ox = 0, oy = 0;
+    s.addEventListener('mousedown', e => {
+      dragging = true;
+      const r = s.getBoundingClientRect();
+      ox = e.clientX - r.left;
+      oy = e.clientY - r.top;
+      s.style.bottom = 'auto'; s.style.right = 'auto';
+      e.preventDefault();
+    });
+    document.addEventListener('mousemove', e => {
+      if (!dragging) return;
+      s.style.left = (e.clientX - ox) + 'px';
+      s.style.top = (e.clientY - oy) + 'px';
+    });
+    document.addEventListener('mouseup', () => dragging = false);
+  })();
+
+  const screen = document.getElementById('termScreen');
+  const input = document.getElementById('termInput');
+  const history = [];
+  let hi = -1;
+
+  const print = (html, cls = 'term-out') => {
+    const d = document.createElement('div');
+    d.className = 'term-line ' + cls;
+    d.innerHTML = html;
+    screen.appendChild(d);
+    screen.scrollTop = screen.scrollHeight;
+  };
+
+  const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+  const CMDS = {
+    help: () => [
+      '<span class="hl">commands</span>:',
+      '',
+      '  <span class="ok">about</span>      → who am i',
+      '  <span class="ok">skills</span>     → what i know',
+      '  <span class="ok">projects</span>   → what i have built',
+      '  <span class="ok">contact</span>    → how to reach me',
+      '  <span class="ok">stack</span>      → current toolkit',
+      '  <span class="ok">whoami</span>     → identity check',
+      '  <span class="ok">ls</span>         → list files',
+      '  <span class="ok">date</span>       → time',
+      '  <span class="ok">clear</span>      → clear screen',
+      '  <span class="ok">sudo</span>       → permission denied',
+      '  <span class="ok">coffee</span>     → priorities',
+      '  <span class="ok">hack</span>       → hack the planet',
+      '',
+      '<span style="opacity:0.6">// hidden cmd somewhere. find it.</span>'
+    ],
+    about: () => [
+      'name      : ujjwal',
+      'role      : cs student',
+      'focus     : <span class="hl">data science + software engineering</span>',
+      'studying  : object-oriented programming (java)',
+      'philosophy: write code future you doesn\'t curse at',
+    ],
+    skills: () => [
+      'lang      : java, python, c/c++, sql, javascript',
+      'oop       : inheritance, polymorphism, abstraction, interfaces',
+      'data      : pandas, numpy, sklearn, matplotlib',
+      'tools     : git, linux, jupyter',
+      'learning  : deep learning, system design, cloud',
+    ],
+    stack: () => ['java · python · git · linux · curiosity · chai · stack overflow'],
+    projects: () => [
+      'PRJ-001 inheritance.java   <span style="opacity:0.6">[oop labs]</span>',
+      'PRJ-002 modelarena.py      <span style="opacity:0.6">[ml benchmarks]</span>',
+      'PRJ-003 eda-in-a-box.ipynb <span style="opacity:0.6">[wip]</span>',
+      'PRJ-004 this.site          <span style="opacity:0.6">[you are here]</span>',
+    ],
+    contact: () => [
+      'email   : your.email@example.com',
+      'github  : github.com/yourusername',
+      'linkedin: linkedin.com/in/yourusername',
+    ],
+    whoami: () => ['ujjwal // student · builder · debugger of own code'],
+    ls: () => ['about.md  skills.json  projects.ts  shell.sh  contact.toml  .secret'],
+    date: () => [new Date().toString()],
+    coffee: () => ['ERR: coffee.exe not found. did you mean: <span class="hl">chai</span>?'],
+    chai: () => ['☕ a fresh cup has been served. continue.'],
+    sudo: () => ['<span class="err">[sudo] password for ujjwal:</span> nice try.'],
+    'rm -rf /': () => ['<span class="err">no.</span>'],
+    hack: () => { runHack(); return null; },
+    matrix: () => { runHack(); return null; },
+    '.secret': () => CMDS.secret(),
+    secret: () => [
+      '<span class="hl">// you found it.</span>',
+      '',
+      'most of what we call "being good at programming"',
+      'is just being patient enough to read the docs',
+      'and humble enough to delete the broken thing',
+      'and start over.',
+      '',
+      'good luck with the OOP labs. abstract classes get easier.',
+      '— ujjwal',
+    ],
+    hello: () => ['hi 👋'],
+    hi: () => ['hello!'],
+    exit: () => ['you cannot leave. there is no exit.'],
+    clear: () => { screen.innerHTML = ''; return null; },
+  };
+
+  function runHack() {
+    const ch = '01アイウエオカキクケコサシスセソタチツテト█▓▒░';
+    let n = 0;
+    const iv = setInterval(() => {
+      let line = '';
+      for (let i = 0; i < 50; i++) line += ch[Math.floor(Math.random() * ch.length)];
+      print(`<span style="color:var(--rose)">${line}</span>`);
+      n++;
+      if (n > 7) {
+        clearInterval(iv);
+        print('<span class="ok">access granted. (jk you already had access.)</span>');
+        print('&nbsp;');
+      }
+    }, 70);
+  }
+
+  function exec(raw) {
+    const cmd = raw.trim();
+    print(`<span class="p-user">ujjwal</span><span class="p-host">@portfolio</span><span class="p-host">:</span><span class="p-path">~</span>$ ${esc(raw)}`);
+    if (!cmd) { print('&nbsp;'); return; }
+    history.push(raw); hi = history.length;
+    const fn = CMDS[cmd.toLowerCase()];
+    if (fn) {
+      const out = fn();
+      if (out) out.forEach(l => print(l));
+    } else {
+      print(`<span class="err">command not found:</span> ${esc(cmd)}. try <span class="hl">help</span>.`);
+    }
+    print('&nbsp;');
+  }
+
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { exec(input.value); input.value = ''; }
+    else if (e.key === 'ArrowUp') { if (hi > 0) { hi--; input.value = history[hi] || ''; } e.preventDefault(); }
+    else if (e.key === 'ArrowDown') { if (hi < history.length - 1) { hi++; input.value = history[hi] || ''; } else { hi = history.length; input.value = ''; } e.preventDefault(); }
+  });
+
+  document.querySelector('.term-wrap').addEventListener('click', () => input.focus());
+</script>
+
+</body>
+</html>
