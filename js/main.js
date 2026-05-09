@@ -11,6 +11,7 @@ import { initSticker }       from './sticker.js';
 import { renderSkills }      from './skills.js';
 import { renderProjects }    from './projects.js';
 import { initTerminal }      from './terminal.js';
+import { initNav }           from './nav.js';
 
 (async function init() {
   // 1. inject all HTML partials first — everything else depends on this
@@ -30,4 +31,5 @@ import { initTerminal }      from './terminal.js';
   initSidebar();
   initSticker();
   initTerminal();
+  initNav();
 })();

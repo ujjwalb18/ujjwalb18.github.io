@@ -1,6 +1,8 @@
 /* =========================================
    SIDEBAR
-   File-tree toggle + smooth-scroll navigation.
+   File-tree toggle + smooth-scroll for the
+   anchor links (since they're real <a href="#x">
+   tags now, we intercept the default jump).
    ========================================= */
 
 export function initSidebar() {
@@ -9,18 +11,22 @@ export function initSidebar() {
     folder.addEventListener('click', () => folder.classList.toggle('open'));
   });
 
-  // file click → scroll to corresponding section
+  // smooth-scroll on file click
   document.querySelectorAll('.tree-file').forEach(file => {
-    file.addEventListener('click', () => {
-      // mark active
+    file.addEventListener('click', (e) => {
+      e.preventDefault(); // stop the instant hash-jump
+
+      // active highlight
       document.querySelectorAll('.tree-file').forEach(f => f.classList.remove('active'));
       file.classList.add('active');
 
       // scroll
       const targetId = file.dataset.target;
-      if (targetId) {
-        const el = document.getElementById(targetId);
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const target = document.getElementById(targetId);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // update URL hash
+        history.pushState(null, '', `#${targetId}`);
       }
     });
   });

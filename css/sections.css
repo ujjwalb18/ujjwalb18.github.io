@@ -49,10 +49,10 @@
 }
 .hero-name {
   font-family: var(--display);
-  font-size: clamp(56px, 12vw, 160px);
+  font-size: clamp(48px, 9vw, 120px);
   font-weight: 900;
   line-height: 0.85;
-  letter-spacing: -4px;
+  letter-spacing: -3px;
   position: relative;
   z-index: 2;
   margin-bottom: 16px;

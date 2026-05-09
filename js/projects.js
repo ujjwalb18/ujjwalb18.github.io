@@ -2,6 +2,7 @@
    PROJECTS RENDERER
    Reads data/projects.json and builds the
    project cards inside #projectsStack.
+   Adds a GitHub link arrow if `link` is set.
    ========================================= */
 
 export async function renderProjects() {
@@ -19,7 +20,10 @@ export async function renderProjects() {
             <span class="pcard-id">${p.id}</span>
             <span class="pcard-meta">${p.meta}</span>
           </div>
-          <h3>${p.title}</h3>
+          <h3>
+            ${p.title}
+            ${p.link ? `<a class="pcard-link" href="${p.link}" target="_blank" rel="noopener" aria-label="View on GitHub">↗</a>` : ''}
+          </h3>
           <p>${p.description}</p>
           <div class="ptags">
             ${p.tags.map(t => `<span class="ptag">${t}</span>`).join('')}

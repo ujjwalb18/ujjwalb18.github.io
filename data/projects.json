@@ -1,6 +1,18 @@
 [
   {
     "id": "PRJ-001",
+    "meta": "// python · r · nlp · llm · 2024",
+    "title": "Dental Implant Analysis",
+    "description": "End-to-end FDA adverse event analysis for dental implants — examined safety trends pre/post COVID-19. Built R preprocessing pipelines for multi-year MDR data, then Python NLP workflows in a Jupyter notebook for keyword extraction, sentiment scoring, and event classification. Compared three classification approaches (keyword matching, sentiment-informed, and a local EleutherAI/gpt-neo-1.3B LLM) to evaluate which gave the most contextually accurate categorisation. Supervised by Dr. Indu Bala at the University of Adelaide.",
+    "tags": ["Python", "R", "NLP", "LLM", "NLTK", "TextBlob", "Jupyter"],
+    "stats": [
+      { "value": "MDS",   "label": "research" },
+      { "value": "3 way", "label": "classifier" }
+    ],
+    "link": "https://github.com/ujjwalb18/Dental_Implant_Analysis"
+  },
+  {
+    "id": "PRJ-002",
     "meta": "// python · etl · nlp · 2024",
     "title": "FDA AdverseEvents.py",
     "description": "End-to-end ETL and NLP pipeline on large-scale FDA adverse event datasets. Built modular ingestion, cleaning, and transformation layers with QA checks at every stage. Ran classification and topic modelling workflows over messy medical narrative text, then produced stakeholder-ready insight summaries. Reusable preprocessing utilities that actually saved time on the next experiment.",
@@ -8,10 +20,23 @@
     "stats": [
       { "value": "7 mo",    "label": "duration" },
       { "value": "ETL+NLP", "label": "type" }
-    ]
+    ],
+    "link": ""
   },
   {
-    "id": "PRJ-002",
+    "id": "PRJ-003",
+    "meta": "// python · association rules · recommender",
+    "title": "Recommender.mine()",
+    "description": "Association rule pattern mining for a recommender system, built as a group project at the University of Adelaide. Used Apriori-style techniques to surface frequent itemsets from transactional data, then evaluated rules using support, confidence, and lift to feed a recommendation engine. The project that taught me data quality matters more than algorithm choice.",
+    "tags": ["Python", "Apriori", "Pattern Mining", "Recommender", "Jupyter"],
+    "stats": [
+      { "value": "group", "label": "project" },
+      { "value": "MDS",   "label": "coursework" }
+    ],
+    "link": "https://github.com/ujjwalb18/Association-Rule-Pattern-Mining-for-Recommender-System"
+  },
+  {
+    "id": "PRJ-004",
     "meta": "// python · nlp · classification",
     "title": "FakeNews.detect()",
     "description": "End-to-end NLP binary classification pipeline — real vs fake news. Built a reproducible evaluation harness with fixed test splits, consistent metric reporting, and error analysis across iterations so every model comparison was actually honest. Refined preprocessing over multiple runs to improve robustness. Documented limitations and recommendations, not just the results.",
@@ -19,10 +44,11 @@
     "stats": [
       { "value": "3 mo",   "label": "duration" },
       { "value": "binary", "label": "classification" }
-    ]
+    ],
+    "link": ""
   },
   {
-    "id": "PRJ-003",
+    "id": "PRJ-005",
     "meta": "// python · sql · supervised ml",
     "title": "SpotifyGenre.predict()",
     "description": "Supervised ML workflow for music genre classification. Started with SQL reconciliation checks and sanity tests on the dataset before touching a model — data quality first. Designed a feature selection pipeline, tuned using AUC-based evaluation, and packaged results into a reproducible experiment framework. The kind of project that makes you realise metric selection matters more than model selection.",
@@ -30,10 +56,59 @@
     "stats": [
       { "value": "5 mo", "label": "duration" },
       { "value": "AUC",  "label": "eval metric" }
-    ]
+    ],
+    "link": "https://github.com/ujjwalb18/Spotify-Genre-Prediction"
   },
   {
-    "id": "PRJ-004",
+    "id": "PRJ-006",
+    "meta": "// python · deep learning · rnn",
+    "title": "RNN.stockPredict()",
+    "description": "Recurrent Neural Network model for time-series stock price prediction. Designed input sequences, normalised series data, trained an RNN with backprop-through-time, and evaluated against baseline naive forecasts to ground the results honestly. Lots of hyperparameter sweeps. The kind of project that teaches you that beating a baseline is hard, and that's the whole point.",
+    "tags": ["Python", "RNN", "Deep Learning", "TensorFlow", "Time Series"],
+    "stats": [
+      { "value": "RNN", "label": "architecture" },
+      { "value": "MDS", "label": "coursework" }
+    ],
+    "link": "https://github.com/ujjwalb18/RNN_Stock_Prediction"
+  },
+  {
+    "id": "PRJ-007",
+    "meta": "// python · deep learning · cnn",
+    "title": "CNN.classifyImage()",
+    "description": "Convolutional Neural Networks for image classification. Built and trained CNN architectures from scratch, experimented with depth, kernel sizes, pooling strategies, and dropout — comparing against simpler baselines to actually measure what each architectural choice bought. Documented the wins and the dead ends.",
+    "tags": ["Python", "CNN", "Deep Learning", "TensorFlow", "Computer Vision"],
+    "stats": [
+      { "value": "CNN", "label": "architecture" },
+      { "value": "MDS", "label": "coursework" }
+    ],
+    "link": "https://github.com/ujjwalb18/CNNs-for-image-classification"
+  },
+  {
+    "id": "PRJ-008",
+    "meta": "// python · ml fundamentals",
+    "title": "Diabetes.perceptron()",
+    "description": "Single-layer perceptron implementation for diabetes prediction, built at the University of Adelaide. Wrote the perceptron training loop and weight updates manually rather than calling a library — to actually understand what gradient descent is doing under the hood. Compared against scikit-learn's implementation to validate. The 'learn the engine before driving the car' project.",
+    "tags": ["Python", "Perceptron", "ML Fundamentals", "From Scratch"],
+    "stats": [
+      { "value": "scratch", "label": "from" },
+      { "value": "UofA",    "label": "coursework" }
+    ],
+    "link": "https://github.com/ujjwalb18/Predicting_Diabetes_Using_Perceptron_UofA"
+  },
+  {
+    "id": "PRJ-009",
+    "meta": "// julia · simulation",
+    "title": "FactorySim.jl",
+    "description": "Discrete event simulation of a factory production line in Julia. Modelled stations, queues, breakdowns, and throughput to study bottlenecks and resource utilisation. Picked Julia specifically to learn the language's strengths in numerical and simulation work — turns out it's genuinely fast when you write it idiomatically.",
+    "tags": ["Julia", "Simulation", "Discrete Event", "Modelling"],
+    "stats": [
+      { "value": "Julia", "label": "language" },
+      { "value": "DES",   "label": "method" }
+    ],
+    "link": "https://github.com/ujjwalb18/Julia-Factory-Simulation"
+  },
+  {
+    "id": "PRJ-010",
     "meta": "// java · mysql · full-stack",
     "title": "ExamPortal.java",
     "description": "Full-stack Online Examination Portal built during the LTIMindtree graduate engineering program. Role-based access control for three user types (admin, teacher, student), automated result calculation and reporting, session validation, and data persistence in MySQL via Tomcat. Heavily documented — designed to actually be maintainable, not just to pass the review.",
@@ -41,6 +116,7 @@
     "stats": [
       { "value": "3",    "label": "user roles" },
       { "value": "Java", "label": "stack" }
-    ]
+    ],
+    "link": "https://github.com/ujjwalb18/Online_Examination_App"
   }
 ]
