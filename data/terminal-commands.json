@@ -1,0 +1,81 @@
+{
+  "help": [
+    "<span class=\"hl\">commands</span>:",
+    "",
+    "  <span class=\"ok\">about</span>      → who am i",
+    "  <span class=\"ok\">skills</span>     → what i know",
+    "  <span class=\"ok\">projects</span>   → what i have built",
+    "  <span class=\"ok\">contact</span>    → how to reach me",
+    "  <span class=\"ok\">stack</span>      → current toolkit",
+    "  <span class=\"ok\">whoami</span>     → identity check",
+    "  <span class=\"ok\">ls</span>         → list files",
+    "  <span class=\"ok\">date</span>       → time",
+    "  <span class=\"ok\">clear</span>      → clear screen",
+    "  <span class=\"ok\">sudo</span>       → permission denied",
+    "  <span class=\"ok\">coffee</span>     → priorities",
+    "  <span class=\"ok\">hack</span>       → hack the planet",
+    "",
+    "<span style=\"opacity:0.6\">// hidden cmd somewhere. find it.</span>"
+  ],
+
+  "about": [
+    "name      : ujjwal bhardwaj",
+    "role      : data &amp; software engineer",
+    "education : MDS · University of Adelaide (2024)",
+    "prev      : software engineer @ LTIMindtree (2.5 yrs)",
+    "location  : adelaide, sa 🇦🇺  (485 visa · full work rights)",
+    "certs     : oracle java · google data analytics · google gen ai",
+    "awards    : adelaide graduate award · university of adelaide",
+    "seeking   : data / software / ml roles in adelaide or remote AU"
+  ],
+
+  "skills": [
+    "lang   : python, java, sql, r, javascript",
+    "data   : pandas, numpy, sklearn, nltk, etl pipelines",
+    "viz    : <span class=\"hl\">power bi</span>, tableau, matplotlib, seaborn",
+    "tools  : git, linux, jupyter, postman, junit",
+    "certs  : oracle java se8, google data analytics, google gen ai"
+  ],
+
+  "stack": ["python · java · sql · r · power bi · tableau · git · too much excel"],
+
+  "projects": [
+    "PRJ-001 fda-adverse-events.py    <span style=\"opacity:0.6\">[etl + nlp · 2024]</span>",
+    "PRJ-002 fake-news-detector.py    <span style=\"opacity:0.6\">[nlp classification · 2024]</span>",
+    "PRJ-003 spotify-genre-ml.py      <span style=\"opacity:0.6\">[supervised ml · 2023]</span>",
+    "PRJ-004 exam-portal.java         <span style=\"opacity:0.6\">[java + mysql · 2021]</span>",
+    "PRJ-005 dental-analysis.ipynb    <span style=\"opacity:0.6\">[ml + analysis · 2024]</span>",
+    "PRJ-006 recommender-rules.py     <span style=\"opacity:0.6\">[association mining · 2024]</span>",
+    "",
+    "<span style=\"opacity:0.6\">// PRJ-005 and 006 on github. links in contact.</span>"
+  ],
+
+  "contact": [
+    "email   : ujjwalbhardwajddn@gmail.com",
+    "github  : github.com/ujjwalb18",
+    "linkedin: linkedin.com/in/ujjwalbh"
+  ],
+
+  "whoami":  ["ujjwal bhardwaj // data + software engineer · mds grad · adelaide"],
+  "ls":      ["about.md  skills.json  projects.ts  shell.sh  contact.toml  .secret"],
+  "coffee":  ["ERR: coffee.exe not found. did you mean: <span class=\"hl\">chai</span>?"],
+  "chai":    ["☕ a fresh cup has been served. continue."],
+  "sudo":    ["<span class=\"err\">[sudo] password for ujjwal:</span> nice try."],
+  "rm -rf /": ["<span class=\"err\">no.</span>"],
+  "hello":   ["hi 👋"],
+  "hi":      ["hello!"],
+  "exit":    ["you cannot leave. there is no exit."],
+
+  "secret": [
+    "<span class=\"hl\">// you found it.</span>",
+    "",
+    "the best way to get good at data science",
+    "is to pick a messy dataset you actually care about",
+    "and try to say something true about it.",
+    "",
+    "the tools are just tools.",
+    "the hard part is having something worth saying.",
+    "",
+    "— ujjwal"
+  ]
+}

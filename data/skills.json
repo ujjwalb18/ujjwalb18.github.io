@@ -1,0 +1,14 @@
+[
+  { "num": "001", "name": "Python",        "category": "data · ml · etl",   "color": "rose"   },
+  { "num": "002", "name": "SQL",           "category": "queries · analysis", "color": ""       },
+  { "num": "003", "name": "Java",          "category": "enterprise · oop",  "color": "sky"    },
+  { "num": "004", "name": "Power BI",      "category": "dashboards · viz",  "color": ""       },
+  { "num": "005", "name": "pandas",        "category": "data wrangling",    "color": "violet" },
+  { "num": "006", "name": "scikit-learn",  "category": "classical ml",      "color": ""       },
+  { "num": "007", "name": "R",             "category": "statistics",        "color": "dark"   },
+  { "num": "008", "name": "Tableau",       "category": "visualisation",     "color": "orange" },
+  { "num": "009", "name": "NLP · NLTK",    "category": "text analysis",     "color": ""       },
+  { "num": "010", "name": "ETL",           "category": "pipelines · flow",  "color": "rose"   },
+  { "num": "011", "name": "Git",           "category": "version control",   "color": "sky"    },
+  { "num": "012", "name": "Excel",         "category": "analysis · pivot",  "color": ""       }
+]

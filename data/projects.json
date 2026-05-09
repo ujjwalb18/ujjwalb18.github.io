@@ -1,0 +1,46 @@
+[
+  {
+    "id": "PRJ-001",
+    "meta": "// python · etl · nlp · 2024",
+    "title": "FDA AdverseEvents.py",
+    "description": "End-to-end ETL and NLP pipeline on large-scale FDA adverse event datasets. Built modular ingestion, cleaning, and transformation layers with QA checks at every stage. Ran classification and topic modelling workflows over messy medical narrative text, then produced stakeholder-ready insight summaries. Reusable preprocessing utilities that actually saved time on the next experiment.",
+    "tags": ["Python", "ETL", "NLTK", "NLP", "pandas", "scikit-learn"],
+    "stats": [
+      { "value": "7 mo",    "label": "duration" },
+      { "value": "ETL+NLP", "label": "type" }
+    ]
+  },
+  {
+    "id": "PRJ-002",
+    "meta": "// python · nlp · classification",
+    "title": "FakeNews.detect()",
+    "description": "End-to-end NLP binary classification pipeline — real vs fake news. Built a reproducible evaluation harness with fixed test splits, consistent metric reporting, and error analysis across iterations so every model comparison was actually honest. Refined preprocessing over multiple runs to improve robustness. Documented limitations and recommendations, not just the results.",
+    "tags": ["Python", "NLTK", "scikit-learn", "NLP", "Classification"],
+    "stats": [
+      { "value": "3 mo",   "label": "duration" },
+      { "value": "binary", "label": "classification" }
+    ]
+  },
+  {
+    "id": "PRJ-003",
+    "meta": "// python · sql · supervised ml",
+    "title": "SpotifyGenre.predict()",
+    "description": "Supervised ML workflow for music genre classification. Started with SQL reconciliation checks and sanity tests on the dataset before touching a model — data quality first. Designed a feature selection pipeline, tuned using AUC-based evaluation, and packaged results into a reproducible experiment framework. The kind of project that makes you realise metric selection matters more than model selection.",
+    "tags": ["Python", "SQL", "scikit-learn", "AUC", "Feature Selection"],
+    "stats": [
+      { "value": "5 mo", "label": "duration" },
+      { "value": "AUC",  "label": "eval metric" }
+    ]
+  },
+  {
+    "id": "PRJ-004",
+    "meta": "// java · mysql · full-stack",
+    "title": "ExamPortal.java",
+    "description": "Full-stack Online Examination Portal built during the LTIMindtree graduate engineering program. Role-based access control for three user types (admin, teacher, student), automated result calculation and reporting, session validation, and data persistence in MySQL via Tomcat. Heavily documented — designed to actually be maintainable, not just to pass the review.",
+    "tags": ["Java", "MySQL", "Tomcat", "OOP", "RBAC"],
+    "stats": [
+      { "value": "3",    "label": "user roles" },
+      { "value": "Java", "label": "stack" }
+    ]
+  }
+]

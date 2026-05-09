@@ -1,0 +1,29 @@
+/* =========================================
+   BASE
+   Reset + body baseline + global animations.
+   ========================================= */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--mono);
+  overflow-x: hidden;
+}
+
+body {
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.12) 1px, transparent 0);
+  background-size: 24px 24px;
+  min-height: 100vh;
+}
+
+/* shared blink animation, used in a few places */
+@keyframes blink {
+  50% { opacity: 0; }
+}

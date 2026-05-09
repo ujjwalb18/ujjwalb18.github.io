@@ -1,0 +1,27 @@
+/* =========================================
+   DESIGN TOKENS
+   Edit colors, fonts, and shadows here.
+   These cascade everywhere else in the site.
+   ========================================= */
+
+:root {
+  /* color palette */
+  --bg: #fef9f1;        /* cream paper background */
+  --ink: #0a0a0a;       /* near-black, all borders + text */
+  --paper: #ffffff;     /* card surfaces */
+
+  /* accent colors */
+  --rose: #ff5c8a;      /* hot pink */
+  --acid: #c4ff3d;      /* highlighter green */
+  --sky: #6ec1ff;       /* powder blue */
+  --orange: #ff8a3d;    /* warm orange */
+  --violet: #c084fc;    /* lavender */
+
+  /* shadows (offset, no blur — brutalist style) */
+  --shadow: 6px 6px 0 var(--ink);
+  --shadow-sm: 3px 3px 0 var(--ink);
+
+  /* type stack */
+  --mono: 'Fira Code', ui-monospace, monospace;
+  --display: 'Bricolage Grotesque', system-ui, sans-serif;
+}
