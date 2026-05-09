@@ -399,19 +399,25 @@
 .sticker:active { cursor: grabbing; }
 
 /* ---------- CONTACT POPUP ---------- */
+/* hidden by default — display only set when .open is added.
+   the [hidden] attr also forces display:none for safety. */
 .contact-popup {
   position: fixed;
   inset: 0;
   background: rgba(10, 10, 10, 0.6);
   z-index: 200;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   padding: 24px;
   opacity: 0;
   transition: opacity 0.2s ease;
 }
-.contact-popup.open { opacity: 1; }
+.contact-popup[hidden] { display: none !important; }
+.contact-popup.open {
+  display: flex;
+  opacity: 1;
+}
 .contact-popup-card {
   background: var(--paper);
   border: 3px solid var(--ink);

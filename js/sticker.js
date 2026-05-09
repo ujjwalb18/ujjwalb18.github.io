@@ -74,14 +74,17 @@ export function initSticker() {
   // ---------- POPUP ----------
   const openPopup = () => {
     popup.hidden = false;
-    requestAnimationFrame(() => popup.classList.add('open'));
+    // force a reflow so the transition runs from opacity 0
+    void popup.offsetHeight;
+    popup.classList.add('open');
     document.body.style.overflow = 'hidden';
   };
 
   const closePopup = () => {
     popup.classList.remove('open');
     document.body.style.overflow = '';
-    setTimeout(() => { popup.hidden = true; }, 200);
+    // wait for opacity transition to finish before hiding
+    setTimeout(() => { popup.hidden = true; }, 220);
   };
 
   closeBtn?.addEventListener('click', closePopup);
