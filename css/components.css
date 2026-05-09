@@ -1,0 +1,570 @@
+/* =========================================
+   COMPONENTS
+   Reusable UI bits: pills, cards, codefile,
+   terminal, sticker, popup, avatar.
+   ========================================= */
+
+/* ---------- PILLS ---------- */
+.pill {
+  padding: 6px 14px;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  font-size: 12px;
+  font-weight: 500;
+  box-shadow: var(--shadow-sm);
+}
+.pill.rose   { background: var(--rose);   color: var(--paper); }
+.pill.sky    { background: var(--sky); }
+.pill.violet { background: var(--violet); }
+
+/* ---------- HERO AVATAR ---------- */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 48px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+.hero-text { min-width: 0; }
+.hero-avatar-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 3;
+}
+.hero-avatar {
+  width: 220px;
+  height: 220px;
+  border: 3px solid var(--ink);
+  background: var(--paper);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  border-radius: 50%;
+  transform: rotate(3deg);
+  transition: transform 0.3s ease;
+}
+.hero-avatar:hover { transform: rotate(-3deg) scale(1.04); }
+.hero-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.avatar-label {
+  background: var(--ink);
+  color: var(--bg);
+  padding: 4px 12px;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  border: 2px solid var(--ink);
+  box-shadow: var(--shadow-sm);
+  transform: rotate(-4deg);
+}
+
+/* ---------- CODEFILE ---------- */
+.codefile {
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  box-shadow: var(--shadow);
+  font-size: 14px;
+  line-height: 1.7;
+  overflow: hidden;
+}
+.codefile-head {
+  background: var(--ink);
+  color: var(--bg);
+  padding: 8px 16px;
+  font-size: 11px;
+  display: flex;
+  justify-content: space-between;
+}
+.codefile-body {
+  padding: 20px 24px;
+  counter-reset: line;
+}
+.cl {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 16px;
+}
+.cl::before {
+  counter-increment: line;
+  content: counter(line);
+  color: rgba(0, 0, 0, 0.3);
+  font-size: 12px;
+  text-align: right;
+  user-select: none;
+}
+.kw      { color: var(--rose);   font-weight: 500; }
+.cls     { color: var(--violet); font-weight: 500; }
+.fn      { color: #2563eb;       font-weight: 500; }
+.str     { color: var(--orange); }
+.cmt     { color: rgba(0, 0, 0, 0.45); font-style: italic; }
+.num-lit { color: var(--rose); }
+.hl      { background: var(--acid); padding: 0 4px; }
+
+/* ---------- SKILL CELLS ---------- */
+.skills-wall {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0;
+  border: 2px solid var(--ink);
+  background: var(--ink);
+  box-shadow: var(--shadow);
+}
+.skill-cell {
+  background: var(--paper);
+  padding: 20px;
+  margin: 1px;
+  transition: all 0.2s;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.skill-cell:hover {
+  background: var(--acid);
+  transform: scale(1.05);
+  z-index: 5;
+  position: relative;
+  box-shadow: var(--shadow-sm);
+}
+.skill-cell.rose   { background: var(--rose);   color: var(--paper); }
+.skill-cell.sky    { background: var(--sky); }
+.skill-cell.violet { background: var(--violet); color: var(--paper); }
+.skill-cell.dark   { background: var(--ink);    color: var(--bg); }
+.skill-cell.dark:hover {
+  background: var(--ink);
+  color: var(--acid);
+  transform: scale(1.05);
+}
+.skill-cell.orange { background: var(--orange); }
+.skill-cell .skill-num {
+  font-size: 11px;
+  opacity: 0.6;
+  letter-spacing: 1px;
+}
+.skill-cell .skill-name {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  margin: 8px 0;
+}
+.skill-cell .skill-cat {
+  font-size: 10px;
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+/* ---------- PROJECT CARDS ---------- */
+.projects-stack { display: grid; gap: 24px; }
+.pcard {
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  box-shadow: var(--shadow);
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+.pcard:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0 var(--ink);
+}
+.pcard-body { padding: 28px; }
+.pcard-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.pcard-id {
+  font-size: 11px;
+  background: var(--ink);
+  color: var(--bg);
+  padding: 3px 8px;
+  letter-spacing: 1px;
+}
+.pcard h3 {
+  font-family: var(--display);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin: 8px 0 12px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.pcard-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: var(--acid);
+  border: 2px solid var(--ink);
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 700;
+  transition: all 0.15s;
+  box-shadow: var(--shadow-sm);
+}
+.pcard-link:hover {
+  background: var(--rose);
+  color: var(--paper);
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--ink);
+}
+.pcard p {
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  max-width: 540px;
+}
+.ptags { display: flex; gap: 6px; flex-wrap: wrap; }
+.ptag {
+  font-size: 11px;
+  padding: 3px 10px;
+  background: var(--bg);
+  border: 1.5px solid var(--ink);
+}
+.pcard-side {
+  background: var(--acid);
+  border-left: 2px solid var(--ink);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 11px;
+}
+/* alternating side colors — works with 10 cards by cycling */
+.pcard:nth-child(5n+2) .pcard-side { background: var(--rose);   color: var(--paper); }
+.pcard:nth-child(5n+3) .pcard-side { background: var(--sky); }
+.pcard:nth-child(5n+4) .pcard-side { background: var(--violet); color: var(--paper); }
+.pcard:nth-child(5n+5) .pcard-side { background: var(--orange); }
+
+.pcard-stat { margin-bottom: 14px; }
+.pcard-stat .v {
+  font-family: var(--display);
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+.pcard-stat .l {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  opacity: 0.8;
+}
+
+/* ---------- TERMINAL ---------- */
+.term-wrap {
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  box-shadow: var(--shadow);
+}
+.term-bar {
+  background: var(--ink);
+  color: var(--bg);
+  padding: 8px 14px;
+  font-size: 11px;
+  display: flex;
+  justify-content: space-between;
+  letter-spacing: 1px;
+}
+.term-screen {
+  padding: 20px;
+  height: 320px;
+  overflow-y: auto;
+  font-size: 13px;
+  line-height: 1.7;
+  background: #fefae5;
+}
+.term-screen::-webkit-scrollbar { width: 8px; }
+.term-screen::-webkit-scrollbar-thumb { background: var(--ink); }
+.term-line { white-space: pre-wrap; word-break: break-word; }
+.p-user { color: var(--rose);   font-weight: 500; }
+.p-host { color: var(--ink);    opacity: 0.5; }
+.p-path { color: var(--violet); font-weight: 500; }
+.term-out .ok  { color: #16a34a; font-weight: 500; }
+.term-out .err { color: var(--rose); }
+.term-input-row {
+  border-top: 2px solid var(--ink);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg);
+  font-size: 13px;
+}
+.term-input {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink);
+  caret-color: var(--rose);
+}
+
+/* ---------- CONTACT CARDS ---------- */
+.contact-mosaic {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+.ccard {
+  border: 2px solid var(--ink);
+  padding: 28px;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  color: var(--ink);
+  transition: all 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+.ccard:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0 var(--ink);
+}
+.ccard:nth-child(1) { background: var(--rose); color: var(--paper); }
+.ccard:nth-child(2) { background: var(--ink);  color: var(--bg); }
+.ccard:nth-child(3) { background: var(--acid); }
+.ccard:nth-child(4) { background: var(--sky); }
+.ccard .label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: 0.7;
+}
+.ccard .val {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 700;
+  margin-top: 12px;
+  letter-spacing: -0.5px;
+  word-break: break-all;
+}
+.ccard .arrow {
+  position: absolute;
+  bottom: 16px;
+  right: 20px;
+  font-size: 32px;
+  line-height: 1;
+  transition: transform 0.2s;
+}
+.ccard:hover .arrow { transform: translate(4px, -4px); }
+
+/* ---------- DRAGGABLE STICKER ---------- */
+.sticker {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  background: var(--acid);
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 13px;
+  text-align: center;
+  cursor: grab;
+  box-shadow: var(--shadow);
+  z-index: 90;
+  user-select: none;
+  transform: rotate(-12deg);
+  bottom: 32px;
+  right: 32px;
+  line-height: 1.1;
+  padding: 8px;
+  transition: transform 0.15s ease;
+  color: var(--ink);
+}
+.sticker:hover {
+  transform: rotate(-8deg) scale(1.05);
+}
+.sticker:active { cursor: grabbing; }
+
+/* ---------- CONTACT POPUP ---------- */
+/* hidden by default — display only set when .open is added.
+   the [hidden] attr also forces display:none for safety. */
+.contact-popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.6);
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.contact-popup[hidden] { display: none !important; }
+.contact-popup.open {
+  display: flex;
+  opacity: 1;
+}
+.contact-popup-card {
+  background: var(--paper);
+  border: 3px solid var(--ink);
+  box-shadow: 10px 10px 0 var(--rose), 10px 10px 0 4px var(--ink);
+  padding: 36px;
+  max-width: 420px;
+  width: 100%;
+  position: relative;
+  transform: scale(0.92) rotate(-1deg);
+  transition: transform 0.2s ease;
+}
+.contact-popup.open .contact-popup-card {
+  transform: scale(1) rotate(0);
+}
+.contact-popup-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.15s;
+  font-family: var(--mono);
+  color: var(--ink);
+}
+.contact-popup-close:hover {
+  background: var(--rose);
+  color: var(--paper);
+  transform: rotate(90deg);
+}
+.contact-popup-tag {
+  display: inline-block;
+  background: var(--ink);
+  color: var(--bg);
+  padding: 3px 10px;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.contact-popup-title {
+  font-family: var(--display);
+  font-size: 48px;
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.contact-popup-sub {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.6);
+  margin-bottom: 24px;
+}
+.contact-popup-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.contact-action {
+  display: grid;
+  grid-template-columns: 44px 1fr 24px;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  text-decoration: none;
+  color: var(--ink);
+  transition: all 0.15s;
+  box-shadow: var(--shadow-sm);
+}
+.contact-action:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--ink);
+}
+.contact-action.email:hover    { background: var(--acid); }
+.contact-action.linkedin:hover { background: var(--sky); }
+.ca-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--ink);
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: var(--display);
+}
+.contact-action.linkedin .ca-icon { background: var(--sky); color: var(--ink); }
+.ca-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.ca-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  opacity: 0.6;
+}
+.ca-val {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.3px;
+  word-break: break-all;
+}
+.ca-arrow {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* ---------- MOBILE TWEAKS ---------- */
+@media (max-width: 880px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .hero-avatar-wrap {
+    order: -1;
+    align-items: flex-start;
+  }
+  .hero-avatar {
+    width: 140px;
+    height: 140px;
+  }
+  .pcard { grid-template-columns: 1fr; }
+  .pcard-side {
+    border-left: 0;
+    border-top: 2px solid var(--ink);
+    flex-direction: row;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .contact-mosaic { grid-template-columns: 1fr; }
+  .sticker { display: none; } /* sticker hidden on mobile, contact section is enough */
+  .contact-popup-card { padding: 28px 24px; }
+  .contact-popup-title { font-size: 36px; }
+}
