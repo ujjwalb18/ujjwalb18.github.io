@@ -1,4 +1,16 @@
 [
+    {
+    "id": "PRJ-011",
+    "meta": "// python · pandas · matplotlib · seaborn · 2025",
+    "title": "IPL.analytics()",
+    "description": "End-to-end analysis of 260,920+ ball-by-ball IPL records across 17 seasons (2008–2024). Built ETL pipelines with automated data auditing — null detection, schema validation, duplicate checks — before touching any analysis. Engineered career batting and bowling KPIs (average, strike rate, economy, dot ball %) with configurable sample thresholds to avoid misleading stats. Designed a composite Player Impact Score (PIS) combining batting and bowling components via min-max normalisation, scaled 0–100. Produced 11 publication-quality charts covering player rankings, team win rates, toss impact, and season scoring trends.",
+    "tags": ["Python", "pandas", "NumPy", "Matplotlib", "Seaborn", "EDA", "Feature Engineering"],
+    "stats": [
+      { "value": "260K+", "label": "deliveries" },
+      { "value": "PIS",   "label": "custom metric" }
+    ],
+    "link": "https://github.com/ujjwalb18/IPL-Data-Analysis"
+  },
   {
     "id": "PRJ-001",
     "meta": "// python · r · nlp · llm · 2024",
