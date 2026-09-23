@@ -4,7 +4,7 @@
     "meta": "// sql · servicenow · powershell · 2021-2022",
     "title": "IncidentOps.resolve()",
     "description": "Incident triage and root cause analysis on a banking and financial services project at LTIMindtree, using SQL investigation and log-based troubleshooting, with ServiceNow for centralised ticket tracking. Reduced daily incident volume from roughly 100 to 30-40 (about 65%) through documentation and permanent code fixes instead of repeat patches, and cut average resolution time by around 50% by keeping a shared, actually-maintained incident log. Also automated recurring manual processes with PowerShell to remove whole categories of tickets before they happened.",
-    "tags": ["SQL", "ServiceNow", "PowerShell", "Root Cause Analysis", "ITSM"],
+    "tags": ["SQL", "ServiceNow", "PowerShell", "ITIL", "Root Cause Analysis", "ITSM"],
     "stats": [
       { "value": "-65%", "label": "incident volume" },
       { "value": "-50%", "label": "resolution time" }
@@ -22,6 +22,18 @@
       { "value": "PIS",   "label": "custom metric" }
     ],
     "link": "https://github.com/ujjwalb18/IPL-Data-Analysis"
+  },
+  {
+    "id": "PRJ-013",
+    "meta": "// sql · sqlite · excel · 2025",
+    "title": "BudgetVariance.query()",
+    "description": "SQL-driven financial analysis on FY2024 data as part of a Data Analyst role at Grad Careers. Queried data imported into SQLite to compute quarter-by-quarter profit margins, uncovering a consistent ~57% margin across all four quarters on $204,644 in annual revenue. Identified Salary as the dominant cost driver at 65.7% of total expenses through SQL-based cost breakdown, and flagged the weakest quarter through budget vs. actual variance analysis. Built SQL Views for repeatable CSV reporting so the same query didn't need re-running every cycle.",
+    "tags": ["SQL", "SQLite", "Financial Analysis", "Reporting"],
+    "stats": [
+      { "value": "57%", "label": "profit margin" },
+      { "value": "65.7%", "label": "top cost driver" }
+    ],
+    "link": ""
   },
   {
     "id": "PRJ-001",

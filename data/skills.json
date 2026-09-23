@@ -12,5 +12,8 @@
   { "num": "011", "name": "Git",           "category": "version control",   "color": "sky"    },
   { "num": "012", "name": "Excel",         "category": "analysis · pivot",  "color": ""       },
   { "num": "013", "name": "ServiceNow",    "category": "itsm · ticketing",  "color": "rose"   },
-  { "num": "014", "name": "PowerShell",    "category": "automation",        "color": ""       }
+  { "num": "014", "name": "PowerShell",    "category": "automation",        "color": ""       },
+  { "num": "015", "name": "ITIL",          "category": "incident · service mgmt", "color": "violet" },
+  { "num": "016", "name": "Postman",       "category": "api testing",       "color": ""       },
+  { "num": "017", "name": "C#/.NET",       "category": "familiarity",       "color": ""       }
 ]
